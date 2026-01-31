@@ -73,3 +73,29 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+### FMOD Unity Integration ###
+# Never ignore DLLs in the FMOD subfolder.
+!ggj_bangers/[Aa]ssets/Plugins/FMOD/**/lib/*
+
+# Don't ignore images and gizmos used by FMOD in the Unity Editor.
+!ggj_bangers/[Aa]ssets/Gizmos/FMOD/*
+!ggj_bangers/[Aa]ssets/Editor Default Resources/FMOD/*
+
+# Ignore the Cache-file since it is updated locally either way
+ggj_bangers/[Aa]ssets/**/FMODStudioCache.asset
+ggj_bangers/[Aa]ssets/**/FMODStudioCache.asset.meta
+ggj_bangers/[Aa]ssets/Plugins/FMOD/Cache/*
+ggj_bangers/[Aa]ssets/Plugins/FMOD/Cache.meta
+ggj_bangers/[Aa]ssets/Plugins/FMOD/Cache/Editor.meta
+
+# Log-files
+fmod.log
+fmod_editor.log
+
+# FMOD 1.10.x (Legacy)
+ggj_bangers/Assets/FMODAssets/*
+ggj_bangers/Assets/FMODStudioCache.meta
+ggj_bangers/FMOD/GGJ_Bangers.cache
+ggj_bangers/FMOD/GGJ_Bangers.unsaved
+ggj_bangers/FMOD/GGJ_Bangers.user
