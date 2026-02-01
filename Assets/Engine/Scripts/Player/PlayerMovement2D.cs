@@ -15,6 +15,16 @@ public class PlayerMovement2D : MonoBehaviour
     
     [Tooltip("Speed multiplier when in the air")]
     [SerializeField] private float airControlMultiplier = 0.1f;
+    
+    [Header("Rolling Rotation")]
+    [Tooltip("If true, player rotates based on horizontal displacement (rolling effect)")]
+    [SerializeField] private bool enableRollingRotation = true;
+    
+    [Tooltip("Degrees to rotate per unit of horizontal distance traveled. Positive = clockwise when moving right.")]
+    [SerializeField] private float degreesPerUnit = 180f;
+    
+    [Tooltip("If true, freezes Rigidbody2D rotation to prevent physics momentum. Rotation is controlled purely by displacement.")]
+    [SerializeField] private bool freezePhysicsRotation = true;
 
     [Header("Jump Settings")]
     [Tooltip("Initial upward velocity when jumping")]
@@ -51,6 +61,10 @@ public class PlayerMovement2D : MonoBehaviour
     
     private float _jumpBufferTime = 0.15f;
     private float _jumpBufferCounter;
+    
+    // Rolling rotation state
+    private float _previousPositionX;
+    private float _accumulatedRotation;
 
     private void Awake()
     {
@@ -68,6 +82,16 @@ public class PlayerMovement2D : MonoBehaviour
     {
         _stateMachine = PlayerStateMachine.Instance;
         _inputBridge = PlayerInputBridge.Instance;
+        
+        // Initialize rolling state
+        _previousPositionX = transform.position.x;
+        _accumulatedRotation = transform.eulerAngles.z;
+        
+        if (freezePhysicsRotation && rb != null)
+        {
+            rb.constraints = rb.constraints | RigidbodyConstraints2D.FreezeRotation;
+            rb.angularVelocity = 0f;
+        }
     }
 
     private void Update()
@@ -134,10 +158,35 @@ public class PlayerMovement2D : MonoBehaviour
         ApplyHorizontalMovement(moveInput);
         HandleJump();
         ApplyGravityModifiers();
+        ApplyRollingRotation();
         
         if (_stateMachine != null)
         {
             _stateMachine.Conditions.Move = moveInput;
+        }
+    }
+    
+    private void ApplyRollingRotation()
+    {
+        if (!enableRollingRotation) return;
+        
+        if (grapplingHook != null && grapplingHook.IsActive) return;
+        
+        float currentX = transform.position.x;
+        float displacement = currentX - _previousPositionX;
+        _previousPositionX = currentX;
+        
+        if (IsGrounded())
+        {
+            float rotationDelta = -displacement * degreesPerUnit;
+            _accumulatedRotation += rotationDelta;
+            
+            transform.rotation = Quaternion.Euler(0f, 0f, _accumulatedRotation);
+        }
+        else
+        {
+            _accumulatedRotation = transform.eulerAngles.z;
+            if (_accumulatedRotation > 180f) _accumulatedRotation -= 360f;
         }
     }
 

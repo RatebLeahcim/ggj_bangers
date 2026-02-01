@@ -14,7 +14,7 @@ public class GrapplingHook : MonoBehaviour
     [SerializeField] private float hookWidth = 0.2f;
     
     [Tooltip("Offset from player center where the hook originates (e.g., left side of player)")]
-    [SerializeField] private Vector2 hookOriginOffset = new Vector2(-0.5f, 0f);
+    [SerializeField] private Vector2 hookOriginOffset = new Vector2(0f, 0.7f);
 
     [Header("Swing Settings")]
     [Tooltip("Overall speed multiplier for all swing forces (higher = snappier swinging)")]
@@ -41,7 +41,7 @@ public class GrapplingHook : MonoBehaviour
     [SerializeField] private float withMomentumEffectiveness = 0.6f;
     
     [Tooltip("Effectiveness when starting from stationary - allows initiating a swing (0-1)")]
-    [SerializeField] private float stationaryEffectiveness = 0.7f;
+    [SerializeField] private float stationaryEffectiveness = 0.6f;
     
     [Tooltip("Braking force when pushing AGAINST swing direction (higher = faster stop)")]
     [SerializeField] private float againstMomentumBraking = 0.1f;
@@ -54,20 +54,74 @@ public class GrapplingHook : MonoBehaviour
     
     [Header("Release Settings")]
     [Tooltip("Multiplier applied to horizontal velocity when releasing the hook (1.0 = no boost)")]
-    [SerializeField] private float releaseHorizontalBoostMultiplier = 1.3f;
+    [SerializeField] private float releaseHorizontalBoostMultiplier = 3.0f;
     
-    [Tooltip("Additional upward boost when releasing (helps maintain height)")]
+    [Tooltip("Additional upward boost when releasing (adds to current vertical velocity)")]
     [SerializeField] private float releaseUpwardBoost = 2f;
+    
+    [Tooltip("Jump force applied when releasing the grapple (like a regular jump)")]
+    [SerializeField] private float releaseJumpForce = 8f;
+    
+    [Tooltip("If true, the release jump overrides downward velocity. If false, jump force is added to current velocity.")]
+    [SerializeField] private bool jumpOverridesDownwardVelocity = true;
+    
+    [Tooltip("Minimum upward velocity after release (prevents weak jumps when releasing at bottom of swing)")]
+    [SerializeField] private float minimumReleaseUpwardVelocity = 5f;
+    
+    [Tooltip("Speed at which the rope retracts when player releases the hook")]
+    [SerializeField] private float releaseRetractSpeed = 25f;
+    
+    [Tooltip("Speed at which the cut rope ends retract (each half retracts in opposite directions)")]
+    [SerializeField] private float cutRetractSpeed = 20f;
 
     [Header("Visual Settings")]
-    [Tooltip("Line renderer for the rope visual")]
+    [Tooltip("Visual mode for the rope - use LineRenderer or SpriteRenderer")]
+    [SerializeField] private RopeVisualMode visualMode = RopeVisualMode.LineRenderer;
+    
+    [Tooltip("Line renderer for the rope visual (used when visualMode is LineRenderer)")]
     [SerializeField] private LineRenderer ropeRenderer;
+    
+    [Tooltip("Sprite renderer for the rope visual (used when visualMode is SpriteRenderer)")]
+    [SerializeField] private SpriteRopeRenderer spriteRopeRenderer;
     
     [Tooltip("Color of the rope")]
     [SerializeField] private Color ropeColor = Color.white;
     
     [Tooltip("Width of the rope")]
-    [SerializeField] private float ropeWidth = 0.05f;
+    [SerializeField] private float ropeWidth = 2.0f;
+    
+    [Header("Secondary Rope (for cut animation)")]
+    [Tooltip("Optional secondary LineRenderer for cut animation - shows the attach-side rope segment")]
+    [SerializeField] private LineRenderer secondaryRopeRenderer;
+    
+    [Tooltip("Optional secondary SpriteRopeRenderer for cut animation")]
+    [SerializeField] private SpriteRopeRenderer secondarySpriteRopeRenderer;
+
+    [Header("Rotation Normalization")]
+    [Tooltip("If true, player rotation normalizes to target angle when hook is active")]
+    [SerializeField] private bool normalizeRotationOnHook = true;
+    
+    [Tooltip("Target rotation angle (in degrees) that the player should rotate to when grappling. 0 = upright.")]
+    [SerializeField] private float targetRotationAngle = 0f;
+    
+    [Tooltip("Base speed for rotation normalization (degrees per second)")]
+    [SerializeField] private float baseNormalizationSpeed = 180f;
+    
+    [Tooltip("Additional speed multiplier based on rotation angle (higher = faster correction for large rotations)")]
+    [SerializeField] private float rotationSpeedMultiplier = 2f;
+    
+    [Tooltip("Angle threshold below which rotation snaps to target")]
+    [SerializeField] private float rotationSnapThreshold = 1f;
+    
+    [Header("Tape Unwinding Effect")]
+    [Tooltip("If true, player rotates as the tape/rope is deployed (unwinding effect)")]
+    [SerializeField] private bool enableUnwindingRotation = true;
+    
+    [Tooltip("Degrees to rotate per unit of rope deployed. Negative = clockwise unwind.")]
+    [SerializeField] private float degreesPerRopeUnit = -45f;
+    
+    [Tooltip("Maximum rotation from unwinding (prevents excessive spinning)")]
+    [SerializeField] private float maxUnwindRotation = 360f;
 
     [Header("Status")]
     public GrapplingHookStatus Status = new();
@@ -76,7 +130,7 @@ public class GrapplingHook : MonoBehaviour
     private PlayerStateMachine _stateMachine;
     private PlayerInputBridge _inputBridge;
     
-    private enum HookState { Idle, Shooting, Attached, Retracting }
+    private enum HookState { Idle, Shooting, Attached, Retracting, ReleaseRetracting, Cut }
     private HookState _currentState = HookState.Idle;
     
     private Vector2 _hookPosition;
@@ -84,10 +138,39 @@ public class GrapplingHook : MonoBehaviour
     private Rigidbody2D _attachedBody;
     private float _currentRopeLength;
     private float _shootDistance;
+    
+    // Rotation normalization state
+    private RigidbodyConstraints2D _originalConstraints;
+    private bool _rotationFrozen = false;
+    
+    // Unwinding state
+    private float _unwindStartAngle = 0f;
+    private float _previousShootDistance = 0f;
+    
+    // Release retraction state
+    private Vector2 _releaseRetractStart;
+    private Vector2 _releaseRetractEnd;
+    private float _releaseRetractProgress;
+    
+    // Cut state - animates two rope halves retracting from cut point
+    private Vector2 _cutPoint;
+    private Vector2 _cutRopePlayerEnd;  // End retracting toward player
+    private Vector2 _cutRopeAttachEnd;  // End retracting toward original attach
+    private float _cutRetractProgress;
 
     public bool IsHooked => _currentState == HookState.Attached;
     public bool IsShooting => _currentState == HookState.Shooting;
     public bool IsActive => _currentState != HookState.Idle;
+    
+    /// <summary>
+    /// Current distance the hook has traveled while shooting.
+    /// </summary>
+    public float CurrentShootDistance => _shootDistance;
+    
+    /// <summary>
+    /// Current rope length when attached to a surface.
+    /// </summary>
+    public float CurrentRopeLength => _currentRopeLength;
 
     private void Awake()
     {
@@ -103,20 +186,30 @@ public class GrapplingHook : MonoBehaviour
 
     private void SetupRopeRenderer()
     {
-        if (ropeRenderer == null)
+        if (visualMode == RopeVisualMode.LineRenderer || spriteRopeRenderer == null)
         {
-            GameObject ropeObj = new GameObject("RopeRenderer");
-            ropeObj.transform.SetParent(transform);
-            ropeRenderer = ropeObj.AddComponent<LineRenderer>();
+            if (ropeRenderer == null)
+            {
+                GameObject ropeObj = new GameObject("RopeRenderer");
+                ropeObj.transform.SetParent(transform);
+                ropeRenderer = ropeObj.AddComponent<LineRenderer>();
+            }
+            
+            ropeRenderer.positionCount = 2;
+            ropeRenderer.startWidth = ropeWidth;
+            ropeRenderer.endWidth = ropeWidth;
+            ropeRenderer.material = new Material(Shader.Find("Sprites/Default"));
+            ropeRenderer.startColor = ropeColor;
+            ropeRenderer.endColor = ropeColor;
+            ropeRenderer.enabled = false;
         }
         
-        ropeRenderer.positionCount = 2;
-        ropeRenderer.startWidth = ropeWidth;
-        ropeRenderer.endWidth = ropeWidth;
-        ropeRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        ropeRenderer.startColor = ropeColor;
-        ropeRenderer.endColor = ropeColor;
-        ropeRenderer.enabled = false;
+        if (visualMode == RopeVisualMode.SpriteRenderer && spriteRopeRenderer != null)
+        {
+            spriteRopeRenderer.SetColor(ropeColor);
+            spriteRopeRenderer.SetWidth(ropeWidth);
+            spriteRopeRenderer.Hide();
+        }
     }
 
     private void Update()
@@ -134,9 +227,114 @@ public class GrapplingHook : MonoBehaviour
             case HookState.Retracting:
                 UpdateRetracting();
                 break;
+            case HookState.ReleaseRetracting:
+                UpdateReleaseRetracting();
+                break;
+            case HookState.Cut:
+                UpdateCutAnimation();
+                break;
+        }
+        
+        if (normalizeRotationOnHook && _currentState != HookState.Idle)
+        {
+            if (enableUnwindingRotation && _currentState == HookState.Shooting)
+            {
+                ApplyUnwindingRotation();
+            }
+            else
+            {
+                NormalizeRotation();
+            }
         }
         
         UpdateRopeVisual();
+    }
+    
+    private void ApplyUnwindingRotation()
+    {
+        if (!_rotationFrozen && _rb != null)
+        {
+            _originalConstraints = _rb.constraints;
+            _rb.constraints = _originalConstraints | RigidbodyConstraints2D.FreezeRotation;
+            _rb.angularVelocity = 0f;
+            _rotationFrozen = true;
+            
+            _unwindStartAngle = transform.eulerAngles.z;
+            if (_unwindStartAngle > 180f) _unwindStartAngle -= 360f;
+        }
+        
+        if (_rb != null)
+        {
+            _rb.angularVelocity = 0f;
+        }
+        
+        float unwindRotation = _shootDistance * degreesPerRopeUnit;
+        
+        unwindRotation = Mathf.Clamp(unwindRotation, -maxUnwindRotation, maxUnwindRotation);
+        
+        float newAngle = _unwindStartAngle + unwindRotation;
+        
+        transform.rotation = Quaternion.Euler(0f, 0f, newAngle);
+    }
+    
+    private void NormalizeRotation()
+    {
+        if (!_rotationFrozen && _rb != null)
+        {
+            _originalConstraints = _rb.constraints;
+            _rb.constraints = _originalConstraints | RigidbodyConstraints2D.FreezeRotation;
+            _rb.angularVelocity = 0f;
+            _rotationFrozen = true;
+        }
+        
+        if (_rb != null)
+        {
+            _rb.angularVelocity = 0f;
+        }
+        
+        float currentAngle = transform.eulerAngles.z;
+        if (currentAngle > 180f) currentAngle -= 360f;
+        
+        float normalizedTarget = targetRotationAngle;
+        if (normalizedTarget > 180f) normalizedTarget -= 360f;
+        if (normalizedTarget < -180f) normalizedTarget += 360f;
+        
+        float angleDifference = currentAngle - normalizedTarget;
+        
+        if (angleDifference > 180f) angleDifference -= 360f;
+        if (angleDifference < -180f) angleDifference += 360f;
+        
+        if (Mathf.Abs(angleDifference) < rotationSnapThreshold)
+        {
+            transform.rotation = Quaternion.Euler(0f, 0f, normalizedTarget);
+            return;
+        }
+        
+        float angleRatio = Mathf.Abs(angleDifference) / 180f;
+        float currentSpeed = baseNormalizationSpeed * (1f + angleRatio * rotationSpeedMultiplier);
+        
+        float maxRotationThisFrame = currentSpeed * Time.deltaTime;
+        
+        float newAngle;
+        if (Mathf.Abs(angleDifference) <= maxRotationThisFrame)
+        {
+            newAngle = normalizedTarget;
+        }
+        else
+        {
+            newAngle = currentAngle - Mathf.Sign(angleDifference) * maxRotationThisFrame;
+        }
+        
+        transform.rotation = Quaternion.Euler(0f, 0f, newAngle);
+    }
+    
+    private void RestoreRotationConstraints()
+    {
+        if (_rotationFrozen && _rb != null)
+        {
+            _rb.constraints = _originalConstraints;
+            _rotationFrozen = false;
+        }
     }
 
     private void FixedUpdate()
@@ -156,11 +354,9 @@ public class GrapplingHook : MonoBehaviour
         _shootDistance = 0f;
         _currentState = HookState.Shooting;
         
-        // Initialize rope positions BEFORE enabling to prevent flash of stale positions
         Vector2 ropeOrigin = (Vector2)transform.position + hookOriginOffset;
-        ropeRenderer.SetPosition(0, ropeOrigin);
-        ropeRenderer.SetPosition(1, _hookPosition);
-        ropeRenderer.enabled = true;
+        InitializeRopeVisual(ropeOrigin, _hookPosition);
+        ShowRopeVisual();
         
         return true;
     }
@@ -171,9 +367,13 @@ public class GrapplingHook : MonoBehaviour
         {
             ApplyReleaseBoost();
             
+            _releaseRetractStart = (Vector2)transform.position + hookOriginOffset;
+            _releaseRetractEnd = _hookPosition;
+            _releaseRetractProgress = 0f;
+            
             _attachedBody = null;
-            _currentState = HookState.Idle;
-            ropeRenderer.enabled = false;
+            _currentState = HookState.ReleaseRetracting;
+            RestoreRotationConstraints();
             
             if (_stateMachine != null)
             {
@@ -182,15 +382,104 @@ public class GrapplingHook : MonoBehaviour
         }
     }
     
+    /// <param name="cutWorldPosition">World position where the cut was triggered (e.g., scissors position)</param>
+    public void CutRope(Vector2 cutWorldPosition)
+    {
+        if (_currentState == HookState.Attached || _currentState == HookState.Shooting)
+        {
+            _cutRopePlayerEnd = (Vector2)transform.position + hookOriginOffset;
+            _cutRopeAttachEnd = _hookPosition;
+            
+            _cutPoint = CalculateCutPointOnRope(cutWorldPosition.y, _cutRopePlayerEnd, _cutRopeAttachEnd);
+            
+            _cutRetractProgress = 0f;
+            
+            _attachedBody = null;
+            _currentState = HookState.Cut;
+            RestoreRotationConstraints();
+            
+            if (_stateMachine != null)
+            {
+                _stateMachine.Conditions.IsHanging = false;
+            }
+            
+            // No boost applied - player just falls
+        }
+    }
+    
+    private Vector2 CalculateCutPointOnRope(float cutY, Vector2 ropeStart, Vector2 ropeEnd)
+    {
+        // Clamp the cut Y to be within the rope's Y range
+        float minY = Mathf.Min(ropeStart.y, ropeEnd.y);
+        float maxY = Mathf.Max(ropeStart.y, ropeEnd.y);
+        float clampedY = Mathf.Clamp(cutY, minY, maxY);
+        
+        float ropeHeight = ropeEnd.y - ropeStart.y;
+        if (Mathf.Abs(ropeHeight) < 0.01f)
+        {
+            return (ropeStart + ropeEnd) / 2f;
+        }
+        
+        float t = (clampedY - ropeStart.y) / ropeHeight;
+        t = Mathf.Clamp01(t);
+        
+        float cutX = Mathf.Lerp(ropeStart.x, ropeEnd.x, t);
+        
+        return new Vector2(cutX, clampedY);
+    }
+    
+
+    public void CutRopeInstant()
+    {
+        if (_currentState == HookState.Attached || _currentState == HookState.Shooting)
+        {
+            _attachedBody = null;
+            _currentState = HookState.Idle;
+            HideRopeVisual();
+            RestoreRotationConstraints();
+            
+            if (_stateMachine != null)
+            {
+                _stateMachine.Conditions.IsHanging = false;
+            }
+            
+            // No boost applied - player just falls
+        }
+    }
+    
     private void ApplyReleaseBoost()
     {
         Vector2 currentVelocity = _rb.linearVelocity;
         
-        // Only boost horizontal velocity, keep vertical unchanged (before adding upward boost)
+        // Boost horizontal velocity
         float boostedHorizontal = currentVelocity.x * releaseHorizontalBoostMultiplier;
-        float boostedVertical = currentVelocity.y + releaseUpwardBoost;
+        
+        // Calculate vertical velocity with jump
+        float boostedVertical = currentVelocity.y;
+        
+        // Apply jump force
+        if (jumpOverridesDownwardVelocity && boostedVertical < 0f)
+        {
+            // If moving downward, override with jump force
+            boostedVertical = releaseJumpForce;
+        }
+        else
+        {
+            // Add jump force to current velocity
+            boostedVertical += releaseJumpForce;
+        }
+        
+        // Add the additional upward boost
+        boostedVertical += releaseUpwardBoost;
+        
+        // Enforce minimum upward velocity
+        if (boostedVertical < minimumReleaseUpwardVelocity)
+        {
+            boostedVertical = minimumReleaseUpwardVelocity;
+        }
         
         _rb.linearVelocity = new Vector2(boostedHorizontal, boostedVertical);
+
     }
 
     private void UpdateShooting()
@@ -237,7 +526,66 @@ public class GrapplingHook : MonoBehaviour
         if (distanceToPlayer < 0.5f)
         {
             _currentState = HookState.Idle;
-            ropeRenderer.enabled = false;
+            HideRopeVisual();
+            RestoreRotationConstraints();
+        }
+    }
+    
+    private void UpdateReleaseRetracting()
+    {
+        // Animate the hook position retracting from attach point back to player
+        float ropeLength = Vector2.Distance(_releaseRetractStart, _releaseRetractEnd);
+        float retractAmount = releaseRetractSpeed * Time.deltaTime;
+        _releaseRetractProgress += retractAmount / ropeLength;
+        
+        if (_releaseRetractProgress >= 1f)
+        {
+            // Retraction complete
+            _currentState = HookState.Idle;
+            HideRopeVisual();
+        }
+        else
+        {
+            // Animate the hook position moving toward player
+            // The rope start stays at player, the end moves toward player
+            _hookPosition = Vector2.Lerp(_releaseRetractEnd, _releaseRetractStart, _releaseRetractProgress);
+        }
+    }
+    
+    private void UpdateCutAnimation()
+    {
+        // Animate two rope halves retracting from the cut point
+        // One half retracts toward the player, the other toward the original attach point
+        
+        float playerTocut = Vector2.Distance(_cutRopePlayerEnd, _cutPoint);
+        float cutToAttach = Vector2.Distance(_cutPoint, _cutRopeAttachEnd);
+        float maxDistance = Mathf.Max(playerTocut, cutToAttach);
+        
+        float retractAmount = cutRetractSpeed * Time.deltaTime;
+        _cutRetractProgress += retractAmount / (maxDistance > 0f ? maxDistance : 1f);
+        
+        if (_cutRetractProgress >= 1f)
+        {
+            // Cut animation complete
+            _currentState = HookState.Idle;
+            HideRopeVisual();
+            HideSecondaryRopeVisual();
+        }
+        else
+        {
+            // Calculate the current positions of both rope segment endpoints
+            // Player-side segment: from _cutRopePlayerEnd to _cutPoint, shrinking toward player
+            Vector2 playerSegmentEnd = Vector2.Lerp(_cutPoint, _cutRopePlayerEnd, _cutRetractProgress);
+            
+            // Attach-side segment: from _cutPoint to _cutRopeAttachEnd, shrinking toward attach
+            Vector2 attachSegmentStart = Vector2.Lerp(_cutPoint, _cutRopeAttachEnd, _cutRetractProgress);
+            
+            // Update visuals - primary shows player segment, we'll need secondary for attach segment
+            // For now, just animate the primary rope as the player-side segment
+            _hookPosition = playerSegmentEnd;
+            
+            // Update secondary rope segment (toward attach point)
+            UpdateSecondaryRopeVisual(attachSegmentStart, _cutRopeAttachEnd);
         }
     }
 
@@ -291,21 +639,17 @@ public class GrapplingHook : MonoBehaviour
             }
             else
             {
-                // Calculate how much the input aligns with current swing direction
                 float inputAlignment = Mathf.Sign(moveInput.x) * Mathf.Sign(tangentialVelocity);
                 
-                // Calculate height factor - reduce force when player is high up
                 float heightDifference = _attachPoint.y - playerPos.y;
                 float normalizedHeight = Mathf.Clamp01(heightDifference / _currentRopeLength);
                 float heightFactor = Mathf.Lerp(1f - heightPenaltyStrength, 1f, normalizedHeight);
                 
-                // Determine swing effectiveness based on momentum alignment
                 float swingEffectiveness;
                 float scaledSwingForce = swingForce * swingSpeedScale;
                 
                 if (Mathf.Abs(tangentialVelocity) < stationaryThreshold)
                 {
-                    // Nearly stationary - good effectiveness to START a swing
                     swingEffectiveness = stationaryEffectiveness * heightFactor;
                     _rb.AddForce(tangent * moveInput.x * scaledSwingForce * swingEffectiveness);
                 }
@@ -342,10 +686,8 @@ public class GrapplingHook : MonoBehaviour
     
     private void ApplyPendulumGravity()
     {
-        // Check if player is moving up or down
         bool isAscending = _rb.linearVelocity.y > 0.1f;
         
-        // Apply extra gravity based on direction
         float gravityMultiplier;
         if (isAscending)
         {
@@ -356,18 +698,118 @@ public class GrapplingHook : MonoBehaviour
             gravityMultiplier = descendingGravityMultiplier - 1f;
         }
         
-        // Add extra gravity force
         Vector2 extraGravity = Physics2D.gravity * gravityMultiplier * Time.fixedDeltaTime;
         _rb.linearVelocity += extraGravity;
     }
 
     private void UpdateRopeVisual()
     {
-        if (!ropeRenderer.enabled) return;
-        
         Vector2 ropeOrigin = (Vector2)transform.position + hookOriginOffset;
-        ropeRenderer.SetPosition(0, ropeOrigin);
-        ropeRenderer.SetPosition(1, _hookPosition);
+        
+        // In cut state, the primary rope shows player-side segment
+        // (from current player origin to the retracting _hookPosition which shrinks toward player)
+        Vector2 ropeEnd = _currentState == HookState.Cut ? _hookPosition : _hookPosition;
+        
+        if (visualMode == RopeVisualMode.SpriteRenderer && spriteRopeRenderer != null)
+        {
+            if (!spriteRopeRenderer.IsVisible) return;
+            
+            // In Cut state, show rope from player to the shrinking endpoint
+            if (_currentState == HookState.Cut)
+            {
+                spriteRopeRenderer.SetRopePoints(_cutRopePlayerEnd, _hookPosition);
+            }
+            else
+            {
+                spriteRopeRenderer.SetRopePoints(ropeOrigin, _hookPosition);
+            }
+        }
+        else
+        {
+            if (ropeRenderer == null || !ropeRenderer.enabled) return;
+            
+            if (_currentState == HookState.Cut)
+            {
+                ropeRenderer.SetPosition(0, _cutRopePlayerEnd);
+                ropeRenderer.SetPosition(1, _hookPosition);
+            }
+            else
+            {
+                ropeRenderer.SetPosition(0, ropeOrigin);
+                ropeRenderer.SetPosition(1, _hookPosition);
+            }
+        }
+    }
+    
+    private void InitializeRopeVisual(Vector2 start, Vector2 end)
+    {
+        if (visualMode == RopeVisualMode.SpriteRenderer && spriteRopeRenderer != null)
+        {
+            spriteRopeRenderer.SetRopePoints(start, end);
+        }
+        else if (ropeRenderer != null)
+        {
+            ropeRenderer.SetPosition(0, start);
+            ropeRenderer.SetPosition(1, end);
+        }
+    }
+    
+    private void ShowRopeVisual()
+    {
+        if (visualMode == RopeVisualMode.SpriteRenderer && spriteRopeRenderer != null)
+        {
+            spriteRopeRenderer.Show();
+        }
+        else if (ropeRenderer != null)
+        {
+            ropeRenderer.enabled = true;
+        }
+    }
+    
+    private void HideRopeVisual()
+    {
+        if (visualMode == RopeVisualMode.SpriteRenderer && spriteRopeRenderer != null)
+        {
+            spriteRopeRenderer.Hide();
+        }
+        else if (ropeRenderer != null)
+        {
+            ropeRenderer.enabled = false;
+        }
+    }
+    
+    private void UpdateSecondaryRopeVisual(Vector2 start, Vector2 end)
+    {
+        if (visualMode == RopeVisualMode.SpriteRenderer && secondarySpriteRopeRenderer != null)
+        {
+            if (!secondarySpriteRopeRenderer.IsVisible)
+            {
+                secondarySpriteRopeRenderer.Show();
+            }
+            secondarySpriteRopeRenderer.SetRopePoints(start, end);
+        }
+        else if (secondaryRopeRenderer != null)
+        {
+            if (!secondaryRopeRenderer.enabled)
+            {
+                secondaryRopeRenderer.enabled = true;
+            }
+            secondaryRopeRenderer.SetPosition(0, start);
+            secondaryRopeRenderer.SetPosition(1, end);
+        }
+        // If no secondary renderer is configured, the cut animation will only show player-side rope
+    }
+    
+    private void HideSecondaryRopeVisual()
+    {
+        if (visualMode == RopeVisualMode.SpriteRenderer && secondarySpriteRopeRenderer != null)
+        {
+            secondarySpriteRopeRenderer.Hide();
+        }
+        else if (secondaryRopeRenderer != null)
+        {
+            secondaryRopeRenderer.enabled = false;
+        }
     }
 
     private void OnDrawGizmosSelected()
@@ -385,4 +827,16 @@ public class GrapplingHook : MonoBehaviour
             Gizmos.DrawWireSphere(_attachPoint, 0.3f);
         }
     }
+}
+
+/// <summary>
+/// Visual rendering mode for the grappling hook rope.
+/// </summary>
+public enum RopeVisualMode
+{
+    /// <summary>Uses Unity's LineRenderer for a simple line-based rope.</summary>
+    LineRenderer,
+    
+    /// <summary>Uses SpriteRopeRenderer for sprite-based rope with tiling/stretching support.</summary>
+    SpriteRenderer
 }

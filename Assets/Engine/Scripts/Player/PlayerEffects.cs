@@ -148,7 +148,6 @@ public class PlayerEffects : MonoBehaviour
 
         smokeAnimator.SetTrigger(smokeTriggerName);
         
-        Debug.Log($"Smoke triggered! Direction: {directionSign}, Offset: ({_smokeXOffset}, {_smokeFixedY})");
     }
 
     public bool IsSmokeEffectConfigured => smokeAnimator != null && smokeEffectObject != null;
