@@ -300,8 +300,6 @@ public class ScissorsEnemy : MonoBehaviour
 
     private GrapplingHook FindPlayerGrapplingHook()
     {
-        // Try to find via singleton first if player object has a known reference
-        // Otherwise, find in scene (less efficient but reliable)
         GrapplingHook hook = FindFirstObjectByType<GrapplingHook>();
         return hook;
     }
@@ -311,9 +309,7 @@ public class ScissorsEnemy : MonoBehaviour
     /// </summary>
     protected virtual void OnGrappleCut()
     {
-        // Placeholder for visual/audio effects when cutting
-        // You can add particle effects, sound effects, etc. here
-        Debug.Log("Scissors cut the grappling hook!");
+        
     }
 
     private void OnDrawGizmosSelected()
