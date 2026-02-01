@@ -39,18 +39,10 @@ public class TutorialManager : MonoBehaviour
                     }
                 }
             }
-            if(PlayerInputBridge.Instance.Consume(PlayerInputType.Enter,out bool value))
-            {
-                if(SlideIterator < SlideGroups.Length - 1)
-                {
-                    SlideIterator++;
-                }
-                else
-                {
-                    IsEnabled = false;
-                    Manager.StartGame();
-                }
-            }
+            // if(PlayerInputBridge.Instance.Consume(PlayerInputType.Enter,out bool value))
+            // {
+                
+            // }
         }
         else
         {
@@ -62,6 +54,19 @@ public class TutorialManager : MonoBehaviour
                     _slidesOff = true;
                 }
             }
+        }
+    }
+
+    public void AdvanceTutorial()
+    {
+        if(SlideIterator < SlideGroups.Length - 1)
+        {
+            SlideIterator++;
+        }
+        else
+        {
+            IsEnabled = false;
+            Manager.TutorialClose();
         }
     }
 }

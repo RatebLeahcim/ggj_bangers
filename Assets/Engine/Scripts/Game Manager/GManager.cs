@@ -17,9 +17,10 @@ public class GManager : MonoBehaviour
         MenuGroup.alpha = 1;
     }
 
-    public void StartGame()
+    public void RestartGame()
     {
-        _firstLoad = true;
+        _gameOver = false;
+        SceneManager.LoadScene(PlayerSceneName);
     }
 
     private void Update()
@@ -27,14 +28,6 @@ public class GManager : MonoBehaviour
         if (!_firstLoad)
         {
             PlayerStateMachine.Instance.Conditions.IsInteracting = true;
-            if(Tutorial.IsEnabled)
-            {
-                return;
-            }
-            else
-            {
-                TutorialScan(); 
-            }
         }
         else
         {
@@ -58,16 +51,19 @@ public class GManager : MonoBehaviour
         }
     }
 
-    private void TutorialScan()
+    public void TutorialOpen()
     {
-        if(PlayerInputBridge.Instance.Consume(PlayerInputType.Space,out bool value))
-        {
-            _firstLoad = true;
-        }
-        if(PlayerInputBridge.Instance.Consume(PlayerInputType.Enter,out bool value2))
-        {
-            Tutorial.IsEnabled = true;
-        }
+        Tutorial.IsEnabled = true;
+    }
+
+    public void TutorialClose()
+    {
+        Tutorial.IsEnabled = false;
+    }
+
+    public void FirstPlay()
+    {
+        _firstLoad = true;
     }
 
     private void OnGameOver()
@@ -75,12 +71,6 @@ public class GManager : MonoBehaviour
         if(GameOverScreen.alpha < 1)
         {
             GameOverScreen.alpha = 1;
-        }
-
-        if(PlayerInputBridge.Instance.Consume(PlayerInputType.Enter,out bool value))
-        {
-            _gameOver = false;
-            SceneManager.LoadScene(PlayerSceneName);
         }
     }
 }
