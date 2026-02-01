@@ -33,10 +33,10 @@ public class PlayerInputBridge : MonoBehaviour
         _actionMap.Enable();
     }
 
-    private void OnDisable()
-    {
-        _actionMap.Disable();
-    }
+    // private void OnDisable()
+    // {
+    //     _actionMap.Disable();
+    // }
 
     private void Update()
     {

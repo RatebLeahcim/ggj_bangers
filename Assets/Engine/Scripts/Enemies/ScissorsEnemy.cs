@@ -53,6 +53,8 @@ public class ScissorsEnemy : MonoBehaviour
 
     [Tooltip("If true, uses trigger-based detection. If false, uses overlap checks.")]
     [SerializeField] private float _damageAmountToPlayer = 15;
+    public FMODUnity.StudioEventEmitter AudioEvent;
+    public bool _audioActive;
 
     // Internal state
     private Vector3 _startPosition;
@@ -129,6 +131,23 @@ public class ScissorsEnemy : MonoBehaviour
         if (!useTriggerDetection)
         {
             CheckForRopeOverlap();
+        }
+
+        if (!_audioActive)
+        {
+            if (GManager.Instance.InGame)
+            {
+                _audioActive = true;
+                AudioEvent.Play();
+            }
+        }
+        else
+        {
+            if (!GManager.Instance.InGame)
+            {
+                _audioActive = false;
+                AudioEvent.Stop();
+            }
         }
     }
 

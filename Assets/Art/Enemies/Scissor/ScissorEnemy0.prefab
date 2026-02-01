@@ -63,6 +63,8 @@ MonoBehaviour:
     m_Bits: 64
   useTriggerDetection: 1
   _damageAmountToPlayer: 15
+  AudioEvent: {fileID: 5520276037817663216}
+  _audioActive: 0
 --- !u!114 &5520276037817663216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,8 +86,8 @@ MonoBehaviour:
       Data4: -2038418514
     Path: event:/SFX/Scissors
   Event: 
-  EventPlayTrigger: 1
-  EventStopTrigger: 2
+  EventPlayTrigger: 0
+  EventStopTrigger: 0
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0

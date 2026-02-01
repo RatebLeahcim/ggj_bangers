@@ -32,9 +32,6 @@ public class PlayerEffects : MonoBehaviour
     [Tooltip("Minimum horizontal velocity to consider the player moving")]
     [SerializeField] private float moveThreshold = 0.1f;
 
-    [Header("Damage VFX")]
-    [Tooltip("Damage Visual Effects Graph")]
-    [SerializeField] private VisualEffect _damageVFX;
 
     [Tooltip("Color Change effect for player renderer when damaged")]
     [SerializeField] private Color _damageColor;
@@ -224,7 +221,6 @@ public class PlayerEffects : MonoBehaviour
     public void DamageVFX()
     {
         _damageColorRoutine ??= StartCoroutine(nameof(DamageColorRoutine));
-        _damageVFX.SendEvent("Damage");
         FMODUnity.RuntimeManager.PlayOneShot(DamageSoundEvent);
     }
 
