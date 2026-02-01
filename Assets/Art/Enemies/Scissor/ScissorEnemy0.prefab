@@ -61,6 +61,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   useTriggerDetection: 1
+  _damageAmountToPlayer: 15
 --- !u!1 &4041575454573010620
 GameObject:
   m_ObjectHideFlags: 0

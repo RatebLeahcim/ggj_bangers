@@ -51,6 +51,9 @@ public class ScissorsEnemy : MonoBehaviour
     [Tooltip("If true, uses trigger-based detection. If false, uses overlap checks.")]
     [SerializeField] private bool useTriggerDetection = true;
 
+    [Tooltip("If true, uses trigger-based detection. If false, uses overlap checks.")]
+    [SerializeField] private float _damageAmountToPlayer = 15;
+
     // Internal state
     private Vector3 _startPosition;
     private float _currentPatrolX;
@@ -118,6 +121,7 @@ public class ScissorsEnemy : MonoBehaviour
 
     private void Update()
     {
+        if(PlayerStateMachine.Instance.Conditions.IsInteracting){ return; }
         UpdatePatrolMovement();
         UpdateScissorAnimation();
         
@@ -291,7 +295,7 @@ public class ScissorsEnemy : MonoBehaviour
         {
             // Cut the rope - this will NOT give the player a jump boost
             playerGrapple.CutRope(cutPoint);
-            
+            PlayerStateMachine.Instance.Health.TakeDamage(_damageAmountToPlayer);
             // Optional: Add visual/audio feedback here
             OnGrappleCut();
         }

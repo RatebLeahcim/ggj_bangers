@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class PlayerEffects : MonoBehaviour
 {
@@ -28,6 +30,17 @@ public class PlayerEffects : MonoBehaviour
     [Tooltip("Minimum horizontal velocity to consider the player moving")]
     [SerializeField] private float moveThreshold = 0.1f;
 
+    [Header("Damage VFX")]
+    [Tooltip("Damage Visual Effects Graph")]
+    [SerializeField] private VisualEffect _damageVFX;
+
+    [Tooltip("Color Change effect for player renderer when damaged")]
+    [SerializeField] private Color _damageColor;
+
+    [Tooltip("How long to change player color when damaged")]
+    [SerializeField] private float _damageColorChangeTime = 0.5f;
+    private Coroutine _damageColorRoutine;
+
     private float _lastSmokeTime;
     private Transform _smokeTransform;
     private float _lastMoveDirection = 0f;
@@ -36,6 +49,14 @@ public class PlayerEffects : MonoBehaviour
     
     private float _smokeFixedY = 0f;
     private float _smokeXOffset = 0f;
+
+    // sprite squash / stretching
+    [SerializeField] float maxStretch = 0.25f;
+    [SerializeField] float squashStrength = 0.15f;
+    [SerializeField] float velocityForMax = 6f;
+    [SerializeField] float returnSpeed = 12f;
+
+    public Transform TapeVisualTransform;
 
     private void Awake()
     {
@@ -78,10 +99,10 @@ public class PlayerEffects : MonoBehaviour
         bool isGrounded = conditions.IsGrounded;
         float moveX = conditions.Move.x;
         bool isMoving = Mathf.Abs(moveX) > moveThreshold;
+        bool justStartedMoving = isMoving && !_wasMoving;
 
         if (isGrounded)
         {
-            bool justStartedMoving = isMoving && !_wasMoving;
             bool justLandedWhileMoving = isMoving && !_wasGrounded;
             bool changedDirection = isMoving && _lastMoveDirection != 0f && 
                                     Mathf.Sign(moveX) != Mathf.Sign(_lastMoveDirection);
@@ -90,6 +111,16 @@ public class PlayerEffects : MonoBehaviour
             {
                 TriggerSmokeEffect(moveX);
             }
+        }
+
+        if(isMoving)
+        {
+            Vector2 vel = justStartedMoving ? PlayerStateMachine.Instance.Rigidbod.linearVelocity * 2 : PlayerStateMachine.Instance.Rigidbod.linearVelocity;
+            ApplyRollScaleWarp(vel);
+        }
+        else
+        {
+            if(TapeVisualTransform.localScale != Vector3.one){TapeVisualTransform.localScale = Vector3.one; }
         }
 
         // Update tracking state
@@ -148,6 +179,60 @@ public class PlayerEffects : MonoBehaviour
 
         smokeAnimator.SetTrigger(smokeTriggerName);
         
+    }
+
+    void ApplyRollScaleWarp(Vector2 velocity)
+    {
+        Vector3 targetScale = Vector3.one;
+
+        float speed01 = Mathf.Clamp01(velocity.magnitude / velocityForMax);
+        if (speed01 < 0.01f)
+        {
+            TapeVisualTransform.localScale = Vector3.Lerp(
+                TapeVisualTransform.localScale,
+                Vector3.one,
+                Time.deltaTime * returnSpeed
+            );
+            return;
+        }
+
+        Vector2 dir = velocity.normalized;
+
+        float stretch = 1f + maxStretch * speed01;
+        float squash  = 1f - squashStrength * speed01;
+
+        if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+        {
+            targetScale.x = stretch;
+            targetScale.y = squash;
+        }
+        else
+        {
+            targetScale.x = squash;
+            targetScale.y = stretch;
+        }
+
+        TapeVisualTransform.localScale = Vector3.Lerp(
+            TapeVisualTransform.localScale,
+            targetScale,
+            Time.deltaTime * returnSpeed
+        );
+    }
+
+    public void DamageVFX()
+    {
+        _damageColorRoutine ??= StartCoroutine(nameof(DamageColorRoutine));
+        _damageVFX.SendEvent("Damage");
+    }
+
+    private IEnumerator DamageColorRoutine()
+    {
+        PlayerStateMachine M = PlayerStateMachine.Instance;
+        Color playerColor = M.PlayerRenderer.color;
+        M.PlayerRenderer.color = _damageColor;
+        yield return new WaitForSeconds(_damageColorChangeTime);
+        M.PlayerRenderer.color = playerColor;
+        _damageColorRoutine = null;
     }
 
     public bool IsSmokeEffectConfigured => smokeAnimator != null && smokeEffectObject != null;

@@ -111,6 +111,7 @@ public class PlayerMovement2D : MonoBehaviour
 
     private void Update()
     {
+        if(PlayerStateMachine.Instance.Conditions.IsInteracting){ return; }
         if (_inputBridge != null)
         {
             if (_inputBridge.Consume(PlayerInputType.Space, out bool jumpPressed))
@@ -162,6 +163,7 @@ public class PlayerMovement2D : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(PlayerStateMachine.Instance.Conditions.IsInteracting){ return; }
         if (IsHanging()) return;
         
         Vector2 moveInput = Vector2.zero;

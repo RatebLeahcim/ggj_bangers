@@ -1,3 +1,5 @@
+using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerStateMachine : PlayerMachine<PlayerStates>
@@ -6,6 +8,10 @@ public class PlayerStateMachine : PlayerMachine<PlayerStates>
     public static PlayerStateMachine Instance { get { return _instance; } set { _instance = value; } }
 
     public PlayerConditions Conditions;
+    public Rigidbody2D Rigidbod;
+    public PlayerHealth Health;
+    public SpriteRenderer PlayerRenderer;
+    private CameraShake _cameraShake;
 
     private void Awake()
     {
@@ -24,5 +30,46 @@ public class PlayerStateMachine : PlayerMachine<PlayerStates>
     {
         CurrentState = RootStates[PlayerStates.Grounded];
         CurrentState.EnterState(CurrentState.StateKey);
+        _cameraShake = Camera.main.GetComponent<CameraShake>();
+    }
+
+    private void Update()
+    {
+        if(Health.HealthCooloffTimer > 0)
+        {
+            Health.HealthCooloffTimer -= Time.deltaTime;
+        }
+    }
+
+    public void ShakeCamera()
+    {
+        _cameraShake.Shake(.3f,0.05f);
+    }
+}
+
+[Serializable]
+public class PlayerHealth
+{
+    public PlayerHealth()
+    {
+        Health = MaxHealth;
+    }
+    public bool IsDead;
+    public float Health, MaxHealth = 100f;
+    public float HealthCooloffTimer = 0;
+    private float _healthCooloffReset = 1.5f;
+    public void TakeDamage(float damage)
+    {
+        if(HealthCooloffTimer > 0){ return; }
+        PlayerEffects.Instance.DamageVFX();
+        PlayerStateMachine.Instance.ShakeCamera();
+        HealthCooloffTimer = _healthCooloffReset;
+        Health -= damage;
+        if(Health <= 0){ IsDead = true; }
+    }
+
+    public void AddHealth(float increasePercentage)
+    {
+        Health = math.lerp(Health,MaxHealth,increasePercentage);
     }
 }
