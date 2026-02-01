@@ -5,6 +5,7 @@ public class PlayerHealthUI : MonoBehaviour
 {
     public Image[] HeartObjects;
     public Color ClearColor;
+    private Color white = Color.white;
 
     private void Update()
     {
@@ -16,6 +17,14 @@ public class PlayerHealthUI : MonoBehaviour
             {
                 HeartObjects[i].color = ClearColor;
             }
+        }
+    }
+
+    public void Reset()
+    {
+        for(int i = 0; i < 10; i++)
+        {
+            HeartObjects[i].color = white;
         }
     }
 }

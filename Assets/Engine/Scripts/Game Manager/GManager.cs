@@ -1,26 +1,31 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GManager : MonoBehaviour
 {
-    [SerializeField] private string ManagerSceneName;
-    [SerializeField] private string PlayerSceneName;
+    [SerializeField] private string ManagerSceneName = "GameManagerScene";
+    [SerializeField] private string PlayerSceneName = "playground";
 
     public CanvasGroup MenuGroup;
     public CanvasGroup GameOverScreen;
     public TutorialManager Tutorial;
+    public PlayerHealthUI HealthUI;
 
     private bool _firstLoad, _gameOver, _playerReady;
 
     private void Awake()
     {
         MenuGroup.alpha = 1;
+        SceneManager.LoadScene(PlayerSceneName,LoadSceneMode.Additive);
     }
 
     public void RestartGame()
     {
+
         _gameOver = false;
-        SceneManager.LoadScene(PlayerSceneName);
+        StartCoroutine(nameof(ReloadSceneAdditive));
+        HealthUI.Reset();
     }
 
     private void Update()
@@ -48,7 +53,24 @@ public class GManager : MonoBehaviour
             {
                 OnGameOver();
             }
+            else
+            {
+                if(GameOverScreen.alpha > 0)
+                {
+                    GameOverScreen.alpha -= Time.deltaTime * 8;
+                }
+            }
         }
+    }
+
+    IEnumerator ReloadSceneAdditive()
+    {
+        Scene scene = SceneManager.GetSceneByName(PlayerSceneName);
+        if (scene.IsValid() && scene.isLoaded)
+        {
+            yield return SceneManager.UnloadSceneAsync(scene);
+        }
+        yield return SceneManager.LoadSceneAsync(PlayerSceneName, LoadSceneMode.Additive);
     }
 
     public void TutorialOpen()

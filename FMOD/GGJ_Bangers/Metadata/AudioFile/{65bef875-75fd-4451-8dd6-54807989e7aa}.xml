@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{65bef875-75fd-4451-8dd6-54807989e7aa}">
+		<property name="assetPath">
+			<value>tape and scissors.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>33.646326530612242</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{71282806-83b7-495c-8ced-bd55328d0070}</destination>
+		</relationship>
+	</object>
+</objects>
