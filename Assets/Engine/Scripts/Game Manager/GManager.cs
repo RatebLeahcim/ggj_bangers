@@ -45,12 +45,70 @@ public class GManager : MonoBehaviour
         menuMusic.start();
     }
 
+    private void OnDestroy()
+    {
+        menuMusic.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        menuMusic.release();
+        levelMusic.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        levelMusic.release();
+        overMusic.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        overMusic.release();
+        
+        if (_instance == this)
+        {
+            _instance = null;
+        }
+    }
+
+    public void FullRestart()
+    {
+        GameOverScreen.alpha = 0;
+        EndingScreen.alpha = 0;
+        
+        menuMusic.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        levelMusic.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        overMusic.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        
+        StopAllEmitters();
+        
+        StartCoroutine(FullRestartCoroutine());
+    }
+
+    private void StopAllEmitters()
+    {
+        FMODUnity.StudioEventEmitter[] emitters = FindObjectsByType<FMODUnity.StudioEventEmitter>(FindObjectsSortMode.None);
+        foreach (var emitter in emitters)
+        {
+            emitter.Stop();
+        }
+    }
+
+    private IEnumerator FullRestartCoroutine()
+    {
+        // Unload the player scene if it's loaded
+        Scene playerScene = SceneManager.GetSceneByName(PlayerSceneName);
+        if (playerScene.IsValid() && playerScene.isLoaded)
+        {
+            yield return SceneManager.UnloadSceneAsync(playerScene);
+        }
+        
+        // Now reload th fresh instance with all state reset
+        SceneManager.LoadScene(ManagerSceneName, LoadSceneMode.Single);
+    }
+
     public void RestartGame()
     {
         _playerWin = false;
-        overMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        levelMusic.start();
         _gameOver = false;
+        _playerReady = false;
+        
+        GameOverScreen.alpha = 0;
+        EndingScreen.alpha = 0;
+        
+        overMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        levelMusic.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        levelMusic.start();
+        
         StartCoroutine(nameof(ReloadSceneAdditive));
         HealthUI.Reset();
     }

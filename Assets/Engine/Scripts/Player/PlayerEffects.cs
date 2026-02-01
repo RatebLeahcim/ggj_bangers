@@ -49,11 +49,18 @@ public class PlayerEffects : MonoBehaviour
     private float _smokeFixedY = 0f;
     private float _smokeXOffset = 0f;
 
-    // sprite squash / stretching
-    [SerializeField] float maxStretch = 0.25f;
-    [SerializeField] float squashStrength = 0.15f;
-    [SerializeField] float velocityForMax = 6f;
-    [SerializeField] float returnSpeed = 12f;
+    [Header("Sprite Squash/Stretch Settings")]
+    [Tooltip("Maximum stretch amount when moving at max velocity (0 = no stretch, 0.25 = 25% stretch)")]
+    [SerializeField] private float maxStretch = 0.1f;
+    
+    [Tooltip("Squash amount perpendicular to movement direction (0 = no squash, 0.15 = 15% squash)")]
+    [SerializeField] private float squashStrength = 0.05f;
+    
+    [Tooltip("Velocity at which the effect reaches its maximum")]
+    [SerializeField] private float velocityForMax = 6f;
+    
+    [Tooltip("Speed at which the sprite returns to normal scale")]
+    [SerializeField] private float returnSpeed = 12f;
 
     public Transform TapeVisualTransform;
 
@@ -112,7 +119,8 @@ public class PlayerEffects : MonoBehaviour
             }
         }
 
-        if(isMoving)
+        // Only apply squash/stretch effect when airborne
+        if (isMoving && !isGrounded)
         {
             Vector2 vel = justStartedMoving ? PlayerStateMachine.Instance.Rigidbod.linearVelocity * 2 : PlayerStateMachine.Instance.Rigidbod.linearVelocity;
             ApplyRollScaleWarp(vel);

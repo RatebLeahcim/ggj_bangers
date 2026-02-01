@@ -57,7 +57,7 @@ public class PlayerHealth
     public bool IsDead;
     public float Health, MaxHealth = 100f;
     public float HealthCooloffTimer = 0;
-    private float _healthCooloffReset = 1.5f;
+    private float _healthCooloffReset = 0.5f;
     public void TakeDamage(float damage)
     {
         if(HealthCooloffTimer > 0){ return; }

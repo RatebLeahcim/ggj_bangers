@@ -19,7 +19,25 @@ public class EndGamePlatform : MonoBehaviour
         if(_platformBounds.Contains(playerPos))
         {
             _triggered = true;
+            DestroyAllEnemies();
             GManager.Instance.TriggerEnding();
+        }
+    }
+
+    private void DestroyAllEnemies()
+    {
+        // Destroy all scissors enemies (their OnDestroy will stop audio)
+        ScissorsEnemy[] scissors = FindObjectsByType<ScissorsEnemy>(FindObjectsSortMode.None);
+        foreach (var enemy in scissors)
+        {
+            Destroy(enemy.gameObject);
+        }
+
+        // Destroy water cup enemies
+        WaterCupEnemy[] waterCups = FindObjectsByType<WaterCupEnemy>(FindObjectsSortMode.None);
+        foreach (var enemy in waterCups)
+        {
+            Destroy(enemy.gameObject);
         }
     }
 }

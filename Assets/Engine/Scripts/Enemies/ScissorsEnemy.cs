@@ -121,6 +121,14 @@ public class ScissorsEnemy : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        if (AudioEvent != null)
+        {
+            AudioEvent.Stop();
+        }
+    }
+
     private void Update()
     {
         if(PlayerStateMachine.Instance.Conditions.IsInteracting){ return; }
@@ -301,9 +309,7 @@ public class ScissorsEnemy : MonoBehaviour
         CutGrapplingHookAtPoint(transform.position);
     }
     
-    /// <summary>
-    /// Cuts the grappling hook rope at a specific world position.
-    /// </summary>
+
     /// <param name="cutPoint">World position where the cut occurs</param>
     public void CutGrapplingHookAtPoint(Vector2 cutPoint)
     {
@@ -317,6 +323,21 @@ public class ScissorsEnemy : MonoBehaviour
             PlayerStateMachine.Instance.Health.TakeDamage(_damageAmountToPlayer);
             // Optional: Add visual/audio feedback here
             OnGrappleCut();
+        }
+    }
+
+    public void DamagePlayer()
+    {
+        if (PlayerStateMachine.Instance != null && PlayerStateMachine.Instance.Health != null)
+        {
+            PlayerStateMachine.Instance.Health.TakeDamage(_damageAmountToPlayer);
+            
+            // Also cut the rope if the player is hanging
+            GrapplingHook playerGrapple = FindPlayerGrapplingHook();
+            if (playerGrapple != null && playerGrapple.IsActive)
+            {
+                playerGrapple.CutRope(transform.position);
+            }
         }
     }
 

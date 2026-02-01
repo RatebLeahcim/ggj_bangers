@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 12da3aade52c74c4eacbb7d819f6f418
+guid: 2dfb512701b684a1387ff1d36cedea7d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 236003431675906085
-    second: tapethinner_0
+      213: 1459949201707703482
+    second: tapeout_0
+  - first:
+      213: -6426431792467314087
+    second: tapeout_1
+  - first:
+      213: -7253123104497799030
+    second: tapeout_2
+  - first:
+      213: -8470319458699414464
+    second: tapeout_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +109,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tapethinner_0
+      name: tapeout_0
       rect:
         serializedVersion: 2
-        x: 47
-        y: 46
-        width: 306
-        height: 321
+        x: 122
+        y: 321
+        width: 44
+        height: 45
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +124,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 528c0d6eed3764300800000000000000
-      internalID: 236003431675906085
+      spriteID: abc17e55018c24410800000000000000
+      internalID: 1459949201707703482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tapeout_1
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 321
+        width: 36
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95a75bc555ab0d6a0800000000000000
+      internalID: -6426431792467314087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tapeout_2
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 324
+        width: 43
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a80fa3417fab75b90800000000000000
+      internalID: -7253123104497799030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tapeout_3
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 80
+        width: 256
+        height: 241
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 044742a7451637a80800000000000000
+      internalID: -8470319458699414464
       vertices: []
       indices: 
       edges: []
@@ -135,7 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      tapethinner_0: 236003431675906085
+      tapeout_0: 1459949201707703482
+      tapeout_1: -6426431792467314087
+      tapeout_2: -7253123104497799030
+      tapeout_3: -8470319458699414464
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

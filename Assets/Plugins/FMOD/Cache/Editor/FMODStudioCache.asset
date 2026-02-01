@@ -42,7 +42,7 @@ MonoBehaviour:
   Path: FMOD/GGJ_Bangers/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639055492102393021
+  lastModified: 639055546266599860
   FileSizes:
   - Name: Desktop
     Value: 439744
@@ -197,7 +197,7 @@ MonoBehaviour:
   Path: FMOD/GGJ_Bangers/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639055492102345108
+  lastModified: 639055546266591395
   FileSizes:
   - Name: Desktop
     Value: 1288
@@ -262,7 +262,7 @@ MonoBehaviour:
   - {fileID: 3097422677804131983}
   StringsBanks:
   - {fileID: -2796414993563035895}
-  cacheTime: 639055492102393021
+  cacheTime: 639055546266599860
   cacheVersion: 131635
 --- !u!114 &873325723247290432
 MonoBehaviour:
@@ -303,7 +303,7 @@ MonoBehaviour:
   Path: FMOD/GGJ_Bangers/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639055492102343836
+  lastModified: 639055546266590851
   FileSizes:
   - Name: Desktop
     Value: 1036
@@ -323,7 +323,7 @@ MonoBehaviour:
   Path: FMOD/GGJ_Bangers/Build/Desktop/BGM.bank
   Name: BGM
   StudioPath: bank:/BGM
-  lastModified: 639055492102339202
+  lastModified: 639055546266590091
   FileSizes:
   - Name: Desktop
     Value: 2587168
