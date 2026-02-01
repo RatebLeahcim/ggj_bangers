@@ -644,9 +644,9 @@ public class GrapplingHook : MonoBehaviour
             }
             else
             {
-                // Down input - reel out (lengthen rope to max)
+                // Down input - reel out (lengthen rope to configured max)
                 _currentRopeLength += reelOutSpeed * Time.fixedDeltaTime;
-                _currentRopeLength = Mathf.Min(_currentRopeLength, _maxRopeLengthForAttachment);
+                _currentRopeLength = Mathf.Min(_currentRopeLength, Status.MaxRopeLength);
             }
         }
         
