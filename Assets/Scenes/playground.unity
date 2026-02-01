@@ -1290,6 +1290,73 @@ MonoBehaviour:
   ropeTag: GrapplingRope
   ropeLayer: GrapplingRope
   grapplingHook: {fileID: 0}
+--- !u!114 &1856761071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856761052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1009719605
+      Data2: 1128067771
+      Data3: -1234166640
+      Data4: 2026142419
+    Path: event:/SFX/Jump
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!1 &1881061150 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 366203669984730273, guid: daab40821aed94454a97e1072b31e15c, type: 3}
+  m_PrefabInstance: {fileID: 4903911712136718488}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1881061153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881061150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1943116287
+      Data2: 1158485682
+      Data3: 334796179
+      Data4: -2038418514
+    Path: event:/SFX/Scissors
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1963380162
 GameObject:
   m_ObjectHideFlags: 0
@@ -1629,8 +1696,24 @@ PrefabInstance:
       value: -130
       objectReference: {fileID: 0}
     - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: ShootSoundEvent.Path
+      value: event:/SFX/Shoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
       propertyPath: Status.maxRopeLength
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: AttachSoundEvent.Path
+      value: event:/SFX/TapeOn
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: DetachSoundEvent.Path
+      value: event:/SFX/TapeOff
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: WhooshSoundEvent.Path
+      value: event:/SFX/Whoosh
       objectReference: {fileID: 0}
     - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
       propertyPath: baseNormalizationSpeed
@@ -1643,6 +1726,70 @@ PrefabInstance:
     - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
       propertyPath: Status.currentRopeLength
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: ShootSoundEvent.Guid.Data1
+      value: -712337005
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: ShootSoundEvent.Guid.Data2
+      value: 1249455112
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: ShootSoundEvent.Guid.Data3
+      value: -145690737
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: ShootSoundEvent.Guid.Data4
+      value: -1570693050
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: AttachSoundEvent.Guid.Data1
+      value: 592607232
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: AttachSoundEvent.Guid.Data2
+      value: 1193142349
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: AttachSoundEvent.Guid.Data3
+      value: 1033788095
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: AttachSoundEvent.Guid.Data4
+      value: -341088661
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: DetachSoundEvent.Guid.Data1
+      value: 1833698880
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: DetachSoundEvent.Guid.Data2
+      value: 1245516236
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: DetachSoundEvent.Guid.Data3
+      value: -621875047
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: DetachSoundEvent.Guid.Data4
+      value: 1854984572
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: WhooshSoundEvent.Guid.Data1
+      value: 1075135194
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: WhooshSoundEvent.Guid.Data2
+      value: 1158594556
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: WhooshSoundEvent.Guid.Data3
+      value: 191467927
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: WhooshSoundEvent.Guid.Data4
+      value: -1241683686
       objectReference: {fileID: 0}
     - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
       propertyPath: releaseHorizontalBoostMultiplier
@@ -1661,6 +1808,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414365533376482926, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1856761070}
+    - targetCorrespondingSourceObject: {fileID: 2414365533376482926, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1856761071}
   m_SourcePrefab: {fileID: 100100000, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
 --- !u!1001 &4429283708840656592
 PrefabInstance:
@@ -1774,7 +1924,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 366203669984730273, guid: daab40821aed94454a97e1072b31e15c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1881061153}
   m_SourcePrefab: {fileID: 100100000, guid: daab40821aed94454a97e1072b31e15c, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

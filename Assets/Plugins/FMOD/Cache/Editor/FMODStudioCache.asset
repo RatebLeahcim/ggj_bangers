@@ -26,7 +26,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 375
+  Length: 356
 --- !u!114 &-5633754162990453959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,11 +70,92 @@ MonoBehaviour:
   Path: FMOD/GGJ_Bangers/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639055155820000000
+  lastModified: 639055291460000000
   FileSizes:
   - Name: Desktop
-    Value: 386240
+    Value: 394688
   Exists: 1
+--- !u!114 &-2642038274358526195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Scissors
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/SFX/Scissors
+  Guid:
+    Data1: -1943116287
+    Data2: 1158485682
+    Data3: 334796179
+    Data4: -2038418514
+  Banks:
+  - {fileID: -4180200150449452837}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3875
+--- !u!114 &-946241746651050971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Shoot
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/SFX/Shoot
+  Guid:
+    Data1: -712337005
+    Data2: 1249455112
+    Data3: -145690737
+    Data4: -1570693050
+  Banks:
+  - {fileID: -4180200150449452837}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 500
+--- !u!114 &-936528811918998527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Jump
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/SFX/Jump
+  Guid:
+    Data1: 1009719605
+    Data2: 1128067771
+    Data3: -1234166640
+    Data4: 2026142419
+  Banks:
+  - {fileID: -4180200150449452837}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 285
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,12 +178,16 @@ MonoBehaviour:
   - {fileID: -7307956928259277495}
   - {fileID: 7864644915711698688}
   - {fileID: -5633754162990453959}
+  - {fileID: 9173279772482960434}
+  - {fileID: -936528811918998527}
+  - {fileID: -2642038274358526195}
+  - {fileID: -946241746651050971}
   EditorParameters: []
   MasterBanks:
   - {fileID: 6118732549587085955}
   StringsBanks:
   - {fileID: 2771357110817446182}
-  cacheTime: 639055155820000000
+  cacheTime: 639055291460000000
   cacheVersion: 131635
 --- !u!114 &334935489363656882
 MonoBehaviour:
@@ -154,7 +239,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 115297
+  Length: 114285
 --- !u!114 &2771357110817446182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,10 +255,10 @@ MonoBehaviour:
   Path: FMOD/GGJ_Bangers/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639055144640000000
+  lastModified: 639055291460000000
   FileSizes:
   - Name: Desktop
-    Value: 1038
+    Value: 1202
   Exists: 1
 --- !u!114 &6118732549587085955
 MonoBehaviour:
@@ -190,7 +275,7 @@ MonoBehaviour:
   Path: FMOD/GGJ_Bangers/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639055144640000000
+  lastModified: 639055291460000000
   FileSizes:
   - Name: Desktop
     Value: 1036
@@ -210,10 +295,10 @@ MonoBehaviour:
   Path: FMOD/GGJ_Bangers/Build/Desktop/BGM.bank
   Name: BGM
   StudioPath: bank:/BGM
-  lastModified: 639055144660000000
+  lastModified: 639055235000000000
   FileSizes:
   - Name: Desktop
-    Value: 1118400
+    Value: 2478464
   Exists: 1
 --- !u!114 &7864644915711698688
 MonoBehaviour:
@@ -241,4 +326,31 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 250
+  Length: 245
+--- !u!114 &9173279772482960434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/BGM02
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Music/BGM02
+  Guid:
+    Data1: 858811543
+    Data2: 1074846512
+    Data3: 2103881869
+    Data4: -634853272
+  Banks:
+  - {fileID: 7332402722636302811}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 116571

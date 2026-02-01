@@ -151,7 +151,7 @@ public class GrapplingHook : MonoBehaviour
     private Rigidbody2D _attachedBody;
     private float _currentRopeLength;
     private float _shootDistance;
-    
+
     // Rotation normalization state
     private RigidbodyConstraints2D _originalConstraints;
     private bool _rotationFrozen = false;
@@ -187,6 +187,14 @@ public class GrapplingHook : MonoBehaviour
     /// Current rope length when attached to a surface.
     /// </summary>
     public float CurrentRopeLength => _currentRopeLength;
+
+    
+    //FMOD Event Loading
+    [Header("FMOD Events")]
+    public FMODUnity.EventReference AttachSoundEvent;
+    public FMODUnity.EventReference DetachSoundEvent;
+    public FMODUnity.EventReference ShootSoundEvent;
+    public FMODUnity.EventReference WhooshSoundEvent;
 
     private void Awake()
     {
@@ -369,6 +377,7 @@ public class GrapplingHook : MonoBehaviour
         _hookPosition = (Vector2)transform.position + hookOriginOffset;
         _shootDistance = 0f;
         _currentState = HookState.Shooting;
+        FMODUnity.RuntimeManager.PlayOneShot(ShootSoundEvent, transform.position);
         
         Vector2 ropeOrigin = (Vector2)transform.position + hookOriginOffset;
         InitializeRopeVisual(ropeOrigin, _hookPosition);
@@ -389,8 +398,9 @@ public class GrapplingHook : MonoBehaviour
             
             _attachedBody = null;
             _currentState = HookState.ReleaseRetracting;
+            FMODUnity.RuntimeManager.PlayOneShot(DetachSoundEvent, transform.position);
             RestoreRotationConstraints();
-            
+
             if (_stateMachine != null)
             {
                 _stateMachine.Conditions.IsHanging = false;
@@ -412,6 +422,7 @@ public class GrapplingHook : MonoBehaviour
             
             _attachedBody = null;
             _currentState = HookState.Cut;
+            FMODUnity.RuntimeManager.PlayOneShot(DetachSoundEvent, transform.position);
             RestoreRotationConstraints();
             
             if (_stateMachine != null)
@@ -509,6 +520,7 @@ public class GrapplingHook : MonoBehaviour
             _maxRopeLengthForAttachment = _currentRopeLength;  // Store initial length as max
             _hookPosition = _attachPoint;
             _currentState = HookState.Attached;
+            FMODUnity.RuntimeManager.PlayOneShot(AttachSoundEvent, transform.position);
             
             if (_stateMachine != null)
             {
@@ -710,11 +722,11 @@ public class GrapplingHook : MonoBehaviour
             _rb.linearVelocity = radialVelocity + tangentDir * Mathf.Sign(currentTangentSpeed) * maxSwingSpeed;
         }
     }
-    
+
     private void ApplyPendulumGravity()
     {
         bool isAscending = _rb.linearVelocity.y > 0.1f;
-        
+
         float gravityMultiplier;
         if (isAscending)
         {
@@ -724,7 +736,7 @@ public class GrapplingHook : MonoBehaviour
         {
             gravityMultiplier = descendingGravityMultiplier - 1f;
         }
-        
+
         Vector2 extraGravity = Physics2D.gravity * gravityMultiplier * Time.fixedDeltaTime;
         _rb.linearVelocity += extraGravity;
     }
