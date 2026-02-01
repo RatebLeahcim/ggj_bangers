@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 4517822648973776625}
   - component: {fileID: 1354099830872725944}
   - component: {fileID: 1960135482395815199}
+  - component: {fileID: 4226602338743754172}
+  - component: {fileID: 4505478397982890474}
   m_Layer: 3
   m_Name: ceiling0
   m_TagString: Untagged
@@ -166,3 +168,65 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.28, y: 0.76}
   m_EdgeRadius: 0
+--- !u!114 &4226602338743754172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5199873797133197219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 592607232
+      Data2: 1193142349
+      Data3: 1033788095
+      Data4: -341088661
+    Path: event:/SFX/TapeOn
+  Event: 
+  EventPlayTrigger: 9
+  EventStopTrigger: 10
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &4505478397982890474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5199873797133197219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1833698880
+      Data2: 1245516236
+      Data3: -621875047
+      Data4: 1854984572
+    Path: event:/SFX/TapeOff
+  Event: 
+  EventPlayTrigger: 10
+  EventStopTrigger: 9
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
