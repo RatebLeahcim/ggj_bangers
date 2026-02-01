@@ -76,6 +76,21 @@ public class PlayerMovement2D : MonoBehaviour
         {
             grapplingHook = GetComponent<GrapplingHook>();
         }
+        
+        // Apply zero-friction material to prevent wall sticking
+        ApplyZeroFrictionMaterial();
+    }
+    
+    private void ApplyZeroFrictionMaterial()
+    {
+        Collider2D playerCollider = GetComponent<Collider2D>();
+        if (playerCollider != null && playerCollider.sharedMaterial == null)
+        {
+            PhysicsMaterial2D noFriction = new PhysicsMaterial2D("PlayerNoFriction");
+            noFriction.friction = 0f;
+            noFriction.bounciness = 0f;
+            playerCollider.sharedMaterial = noFriction;
+        }
     }
 
     private void Start()

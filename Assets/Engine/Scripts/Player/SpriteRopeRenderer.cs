@@ -18,8 +18,8 @@ public class SpriteRopeRenderer : MonoBehaviour
     [Tooltip("Sorting layer for the rope sprite")]
     [SerializeField] private string sortingLayerName = "Default";
     
-    [Tooltip("Order in sorting layer")]
-    [SerializeField] private int sortingOrder = 0;
+    [Tooltip("Order in sorting layer (negative = behind, positive = in front)")]
+    [SerializeField] private int sortingOrder = -10;
     
     [Header("Color Settings")]
     [Tooltip("Color tint applied to the rope sprite")]

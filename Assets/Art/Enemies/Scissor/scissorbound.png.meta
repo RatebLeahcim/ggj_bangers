@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2d9edf0723c294a2c82002551eb56a62
+guid: 48c4d968fc7384dc88acd99398f481fa
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7963743602409617211
-    second: scissorhalf_0
+      213: -55548646232926237
+    second: scissorbound_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: scissorhalf_0
+      name: scissorbound_0
       rect:
         serializedVersion: 2
         x: 6
-        y: 100
+        y: 34
         width: 588
-        height: 154
+        height: 220
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5c8c51823691b7190800000000000000
-      internalID: -7963743602409617211
+      spriteID: 3e75881fcc6aa3ff0800000000000000
+      internalID: -55548646232926237
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      scissorhalf_0: -7963743602409617211
+      scissorbound_0: -55548646232926237
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
