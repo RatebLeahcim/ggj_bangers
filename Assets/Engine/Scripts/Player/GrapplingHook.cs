@@ -3,6 +3,14 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class GrapplingHook : MonoBehaviour
 {
+
+    [Header("FMOD Events")]
+    [Tooltip("FMOD Events to be called in the script")]
+
+    public FMODUnity.EventReference AttachSoundEvent;
+    public FMODUnity.EventReference DetachSoundEvent;
+    public FMODUnity.EventReference ShootSoundEvent;
+
     [Header("Grappling Hook Settings")]
     [Tooltip("Speed at which the hook travels upward")]
     [SerializeField] private float hookSpeed = 18f;
@@ -369,6 +377,7 @@ public class GrapplingHook : MonoBehaviour
         _hookPosition = (Vector2)transform.position + hookOriginOffset;
         _shootDistance = 0f;
         _currentState = HookState.Shooting;
+        FMODUnity.RuntimeManager.PlayOneShot(ShootSoundEvent);
         
         Vector2 ropeOrigin = (Vector2)transform.position + hookOriginOffset;
         InitializeRopeVisual(ropeOrigin, _hookPosition);
@@ -390,6 +399,7 @@ public class GrapplingHook : MonoBehaviour
             _attachedBody = null;
             _currentState = HookState.ReleaseRetracting;
             RestoreRotationConstraints();
+            FMODUnity.RuntimeManager.PlayOneShot(DetachSoundEvent);
             
             if (_stateMachine != null)
             {
@@ -412,6 +422,7 @@ public class GrapplingHook : MonoBehaviour
             
             _attachedBody = null;
             _currentState = HookState.Cut;
+            FMODUnity.RuntimeManager.PlayOneShot(DetachSoundEvent);
             RestoreRotationConstraints();
             
             if (_stateMachine != null)
@@ -509,6 +520,7 @@ public class GrapplingHook : MonoBehaviour
             _maxRopeLengthForAttachment = _currentRopeLength;  // Store initial length as max
             _hookPosition = _attachPoint;
             _currentState = HookState.Attached;
+            FMODUnity.RuntimeManager.PlayOneShot(AttachSoundEvent);
             
             if (_stateMachine != null)
             {
@@ -566,14 +578,14 @@ public class GrapplingHook : MonoBehaviour
     {
         // Animate two rope halves retracting from the cut point
         // One half retracts toward the player, the other toward the original attach point
-        
+
         float playerTocut = Vector2.Distance(_cutRopePlayerEnd, _cutPoint);
         float cutToAttach = Vector2.Distance(_cutPoint, _cutRopeAttachEnd);
         float maxDistance = Mathf.Max(playerTocut, cutToAttach);
         
         float retractAmount = cutRetractSpeed * Time.deltaTime;
         _cutRetractProgress += retractAmount / (maxDistance > 0f ? maxDistance : 1f);
-        
+
         if (_cutRetractProgress >= 1f)
         {
             // Cut animation complete

@@ -7,6 +7,8 @@ public class PlayerEffects : MonoBehaviour
     private static PlayerEffects _instance;
     public static PlayerEffects Instance => _instance;
 
+    public FMODUnity.EventReference DamageSoundEvent;
+
     [Header("Smoke Effect Settings")]
     [Tooltip("The Animator component for the smoke effect")]
     [SerializeField] private Animator smokeAnimator;
@@ -223,6 +225,7 @@ public class PlayerEffects : MonoBehaviour
     {
         _damageColorRoutine ??= StartCoroutine(nameof(DamageColorRoutine));
         _damageVFX.SendEvent("Damage");
+        FMODUnity.RuntimeManager.PlayOneShot(DamageSoundEvent);
     }
 
     private IEnumerator DamageColorRoutine()

@@ -278,6 +278,8 @@ GameObject:
   m_Component:
   - component: {fileID: 159728643}
   - component: {fileID: 159728644}
+  - component: {fileID: 159728646}
+  - component: {fileID: 159728645}
   m_Layer: 3
   m_Name: GameObject
   m_TagString: Untagged
@@ -346,6 +348,68 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 43.273834, y: 2.0966723}
   m_EdgeRadius: 0
+--- !u!114 &159728645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159728642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1833698880
+      Data2: 1245516236
+      Data3: -621875047
+      Data4: 1854984572
+    Path: event:/SFX/TapeOff
+  Event: 
+  EventPlayTrigger: 10
+  EventStopTrigger: 9
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &159728646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159728642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 592607232
+      Data2: 1193142349
+      Data3: 1033788095
+      Data4: -341088661
+    Path: event:/SFX/TapeOn
+  Event: 
+  EventPlayTrigger: 9
+  EventStopTrigger: 10
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &180531502
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,10 +538,11 @@ GameObject:
   m_Component:
   - component: {fileID: 367131264}
   - component: {fileID: 367131263}
-  - component: {fileID: 367131262}
   - component: {fileID: 367131265}
   - component: {fileID: 367131266}
   - component: {fileID: 367131267}
+  - component: {fileID: 367131268}
+  - component: {fileID: 367131269}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -485,14 +550,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &367131262
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 367131261}
-  m_Enabled: 1
 --- !u!20 &367131263
 Camera:
   m_ObjectHideFlags: 0
@@ -641,6 +698,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e261b11f9084d02ae427216c9ab395, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraShake
+--- !u!114 &367131268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367131261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
+--- !u!114 &367131269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367131261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -55248920
+      Data2: 1077004964
+      Data3: 1648281513
+      Data4: 754121085
+    Path: event:/Music/BGM01
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &437757523
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,6 +755,8 @@ GameObject:
   - component: {fileID: 437757526}
   - component: {fileID: 437757525}
   - component: {fileID: 437757524}
+  - component: {fileID: 437757529}
+  - component: {fileID: 437757528}
   m_Layer: 3
   m_Name: ceiling1
   m_TagString: Untagged
@@ -807,6 +911,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &437757528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437757523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1833698880
+      Data2: 1245516236
+      Data3: -621875047
+      Data4: 1854984572
+    Path: event:/SFX/TapeOff
+  Event: 
+  EventPlayTrigger: 10
+  EventStopTrigger: 9
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &437757529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437757523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 592607232
+      Data2: 1193142349
+      Data3: 1033788095
+      Data4: -341088661
+    Path: event:/SFX/TapeOn
+  Event: 
+  EventPlayTrigger: 9
+  EventStopTrigger: 10
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &573587573
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,6 +985,8 @@ GameObject:
   - component: {fileID: 573587576}
   - component: {fileID: 573587575}
   - component: {fileID: 573587574}
+  - component: {fileID: 573587579}
+  - component: {fileID: 573587578}
   m_Layer: 3
   m_Name: ceiling3
   m_TagString: Untagged
@@ -973,6 +1141,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &573587578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573587573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1833698880
+      Data2: 1245516236
+      Data3: -621875047
+      Data4: 1854984572
+    Path: event:/SFX/TapeOff
+  Event: 
+  EventPlayTrigger: 10
+  EventStopTrigger: 9
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &573587579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573587573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 592607232
+      Data2: 1193142349
+      Data3: 1033788095
+      Data4: -341088661
+    Path: event:/SFX/TapeOn
+  Event: 
+  EventPlayTrigger: 9
+  EventStopTrigger: 10
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &698822167
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,6 +1215,8 @@ GameObject:
   - component: {fileID: 698822170}
   - component: {fileID: 698822169}
   - component: {fileID: 698822168}
+  - component: {fileID: 698822173}
+  - component: {fileID: 698822172}
   m_Layer: 3
   m_Name: ceiling4
   m_TagString: Untagged
@@ -1139,6 +1371,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &698822172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698822167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1833698880
+      Data2: 1245516236
+      Data3: -621875047
+      Data4: 1854984572
+    Path: event:/SFX/TapeOff
+  Event: 
+  EventPlayTrigger: 10
+  EventStopTrigger: 9
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &698822173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698822167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 592607232
+      Data2: 1193142349
+      Data3: 1033788095
+      Data4: -341088661
+    Path: event:/SFX/TapeOn
+  Event: 
+  EventPlayTrigger: 9
+  EventStopTrigger: 10
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &982886053
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1321,6 +1615,8 @@ GameObject:
   - component: {fileID: 1105614405}
   - component: {fileID: 1105614404}
   - component: {fileID: 1105614403}
+  - component: {fileID: 1105614408}
+  - component: {fileID: 1105614407}
   m_Layer: 3
   m_Name: ceiling2
   m_TagString: Untagged
@@ -1475,6 +1771,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1105614407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105614402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1833698880
+      Data2: 1245516236
+      Data3: -621875047
+      Data4: 1854984572
+    Path: event:/SFX/TapeOff
+  Event: 
+  EventPlayTrigger: 10
+  EventStopTrigger: 9
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &1105614408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105614402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 592607232
+      Data2: 1193142349
+      Data3: 1033788095
+      Data4: -341088661
+    Path: event:/SFX/TapeOn
+  Event: 
+  EventPlayTrigger: 9
+  EventStopTrigger: 10
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1270081661
 GameObject:
   m_ObjectHideFlags: 0
@@ -1821,6 +2179,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 076dfc89acd3e4f4986f7cf11c7e8c3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerEffects
+  DamageSoundEvent:
+    Guid:
+      Data1: -350884779
+      Data2: 1296618370
+      Data3: 1808440229
+      Data4: 1172490515
+    Path: event:/SFX/Hurt
   smokeAnimator: {fileID: 1270081662}
   smokeSpriteRenderer: {fileID: 1270081663}
   smokeEffectObject: {fileID: 1270081661}
@@ -1887,6 +2252,37 @@ Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 7426436462271143597, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
   m_PrefabInstance: {fileID: 4366857193462354954}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1856761080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856761052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1009719605
+      Data2: 1128067771
+      Data3: -1234166640
+      Data4: 2026142419
+    Path: event:/SFX/Jump
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1896083800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1977,6 +2373,8 @@ GameObject:
   - component: {fileID: 1963380164}
   - component: {fileID: 1963380163}
   - component: {fileID: 1963380166}
+  - component: {fileID: 1963380168}
+  - component: {fileID: 1963380167}
   m_Layer: 3
   m_Name: Floor
   m_TagString: Untagged
@@ -2131,6 +2529,68 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1963380167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963380162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1833698880
+      Data2: 1245516236
+      Data3: -621875047
+      Data4: 1854984572
+    Path: event:/SFX/TapeOff
+  Event: 
+  EventPlayTrigger: 10
+  EventStopTrigger: 9
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &1963380168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963380162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 592607232
+      Data2: 1193142349
+      Data3: 1033788095
+      Data4: -341088661
+    Path: event:/SFX/TapeOn
+  Event: 
+  EventPlayTrigger: 9
+  EventStopTrigger: 8
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &4366857193462354954
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2256,8 +2716,20 @@ PrefabInstance:
       value: -130
       objectReference: {fileID: 0}
     - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: ShootSoundEvent.Path
+      value: event:/SFX/Shoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
       propertyPath: Status.maxRopeLength
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: AttachSoundEvent.Path
+      value: event:/SFX/TapeOn
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: DetachSoundEvent.Path
+      value: event:/SFX/TapeOff
       objectReference: {fileID: 0}
     - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
       propertyPath: baseNormalizationSpeed
@@ -2270,6 +2742,54 @@ PrefabInstance:
     - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
       propertyPath: Status.currentRopeLength
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: ShootSoundEvent.Guid.Data1
+      value: -712337005
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: ShootSoundEvent.Guid.Data2
+      value: 1249455112
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: ShootSoundEvent.Guid.Data3
+      value: -145690737
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: ShootSoundEvent.Guid.Data4
+      value: -1570693050
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: AttachSoundEvent.Guid.Data1
+      value: 592607232
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: AttachSoundEvent.Guid.Data2
+      value: 1193142349
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: AttachSoundEvent.Guid.Data3
+      value: 1033788095
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: AttachSoundEvent.Guid.Data4
+      value: -341088661
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: DetachSoundEvent.Guid.Data1
+      value: 1833698880
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: DetachSoundEvent.Guid.Data2
+      value: 1245516236
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: DetachSoundEvent.Guid.Data3
+      value: -621875047
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      propertyPath: DetachSoundEvent.Guid.Data4
+      value: 1854984572
       objectReference: {fileID: 0}
     - target: {fileID: 7411920667063143748, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
       propertyPath: releaseHorizontalBoostMultiplier
@@ -2295,6 +2815,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2414365533376482926, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1856761070}
+    - targetCorrespondingSourceObject: {fileID: 2414365533376482926, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1856761080}
   m_SourcePrefab: {fileID: 100100000, guid: ab6d9d73bfb63484681c6272a94f426d, type: 3}
 --- !u!1001 &4429283708840656592
 PrefabInstance:

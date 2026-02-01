@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{7b4021aa-3410-42ad-8728-f4dbdf45d333}">
+		<property name="assetPath">
+			<value>dmg5.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.37151927437641724</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{71282806-83b7-495c-8ced-bd55328d0070}</destination>
+		</relationship>
+	</object>
+</objects>

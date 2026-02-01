@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{e8c07277-7afc-4de0-9725-8e015ec5b6b7}">
+		<property name="assetPath">
+			<value>dmg8.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.4179591836734694</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{71282806-83b7-495c-8ced-bd55328d0070}</destination>
+		</relationship>
+	</object>
+</objects>

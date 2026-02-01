@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2203601001525030916}
   - component: {fileID: 3475336551038790400}
+  - component: {fileID: 5520276037817663216}
   m_Layer: 0
   m_Name: ScissorEnemy0
   m_TagString: Untagged
@@ -62,6 +63,37 @@ MonoBehaviour:
     m_Bits: 64
   useTriggerDetection: 1
   _damageAmountToPlayer: 15
+--- !u!114 &5520276037817663216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366203669984730273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1943116287
+      Data2: 1158485682
+      Data3: 334796179
+      Data4: -2038418514
+    Path: event:/SFX/Scissors
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &4041575454573010620
 GameObject:
   m_ObjectHideFlags: 0

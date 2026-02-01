@@ -108,7 +108,7 @@ public class GrapplingRopeCollider : MonoBehaviour
     private void UpdateCollider()
     {
         if (_boxCollider == null || grapplingHook == null) return;
-        
+
         // Get rope endpoints from the grappling hook
         // We need to access the hook position and player position
         Vector2 playerPos = grapplingHook.transform.position;
