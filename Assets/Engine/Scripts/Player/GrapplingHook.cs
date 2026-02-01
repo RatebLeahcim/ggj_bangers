@@ -73,6 +73,19 @@ public class GrapplingHook : MonoBehaviour
     
     [Tooltip("Speed at which the cut rope ends retract (each half retracts in opposite directions)")]
     [SerializeField] private float cutRetractSpeed = 20f;
+    
+    [Header("Rope Length Control")]
+    [Tooltip("If true, player can control rope length with up/down input while hanging")]
+    [SerializeField] private bool enableRopeLengthControl = true;
+    
+    [Tooltip("Speed at which the rope reels in when pressing up")]
+    [SerializeField] private float reelInSpeed = 8f;
+    
+    [Tooltip("Speed at which the rope reels out when pressing down")]
+    [SerializeField] private float reelOutSpeed = 6f;
+    
+    [Tooltip("Minimum rope length when fully reeled in")]
+    [SerializeField] private float minRopeLength = 1f;
 
     [Header("Visual Settings")]
     [Tooltip("Visual mode for the rope - use LineRenderer or SpriteRenderer")]
@@ -157,6 +170,9 @@ public class GrapplingHook : MonoBehaviour
     private Vector2 _cutRopePlayerEnd;  // End retracting toward player
     private Vector2 _cutRopeAttachEnd;  // End retracting toward original attach
     private float _cutRetractProgress;
+    
+    // Rope length control state
+    private float _maxRopeLengthForAttachment;  // Max length for current attachment (can reel out to this)
 
     public bool IsHooked => _currentState == HookState.Attached;
     public bool IsShooting => _currentState == HookState.Shooting;
@@ -451,28 +467,21 @@ public class GrapplingHook : MonoBehaviour
     {
         Vector2 currentVelocity = _rb.linearVelocity;
         
-        // Boost horizontal velocity
         float boostedHorizontal = currentVelocity.x * releaseHorizontalBoostMultiplier;
         
-        // Calculate vertical velocity with jump
         float boostedVertical = currentVelocity.y;
         
-        // Apply jump force
         if (jumpOverridesDownwardVelocity && boostedVertical < 0f)
         {
-            // If moving downward, override with jump force
             boostedVertical = releaseJumpForce;
         }
         else
         {
-            // Add jump force to current velocity
             boostedVertical += releaseJumpForce;
         }
         
-        // Add the additional upward boost
         boostedVertical += releaseUpwardBoost;
         
-        // Enforce minimum upward velocity
         if (boostedVertical < minimumReleaseUpwardVelocity)
         {
             boostedVertical = minimumReleaseUpwardVelocity;
@@ -497,6 +506,7 @@ public class GrapplingHook : MonoBehaviour
             _attachPoint = hit.point;
             _attachedBody = hit.collider.attachedRigidbody;
             _currentRopeLength = Vector2.Distance(transform.position, _attachPoint);
+            _maxRopeLengthForAttachment = _currentRopeLength;  // Store initial length as max
             _hookPosition = _attachPoint;
             _currentState = HookState.Attached;
             
@@ -621,6 +631,23 @@ public class GrapplingHook : MonoBehaviour
         if (_inputBridge != null)
         {
             _inputBridge.Consume(PlayerInputType.Move, out moveInput);
+        }
+        
+        // Handle rope length control with vertical input
+        if (enableRopeLengthControl && Mathf.Abs(moveInput.y) > 0.1f)
+        {
+            if (moveInput.y > 0)
+            {
+                // Up input - reel in (shorten rope)
+                _currentRopeLength -= reelInSpeed * Time.fixedDeltaTime;
+                _currentRopeLength = Mathf.Max(_currentRopeLength, minRopeLength);
+            }
+            else
+            {
+                // Down input - reel out (lengthen rope to max)
+                _currentRopeLength += reelOutSpeed * Time.fixedDeltaTime;
+                _currentRopeLength = Mathf.Min(_currentRopeLength, _maxRopeLengthForAttachment);
+            }
         }
         
         if (Mathf.Abs(moveInput.x) > 0.1f)
