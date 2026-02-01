@@ -12,17 +12,30 @@ public class GManager : MonoBehaviour
     public TutorialManager Tutorial;
     public PlayerHealthUI HealthUI;
 
+
+    public FMODUnity.EventReference MainMenuMusicEvent;
+    public FMODUnity.EventReference MainGameMusicEvent;
+    public FMODUnity.EventReference GameOverMusicEvent;
+    FMOD.Studio.EventInstance menuMusic;
+    FMOD.Studio.EventInstance levelMusic;
+    FMOD.Studio.EventInstance overMusic;
+
     private bool _firstLoad, _gameOver, _playerReady;
 
     private void Awake()
     {
         MenuGroup.alpha = 1;
         SceneManager.LoadScene(PlayerSceneName,LoadSceneMode.Additive);
+        menuMusic = FMODUnity.RuntimeManager.CreateInstance(MainMenuMusicEvent);
+        levelMusic = FMODUnity.RuntimeManager.CreateInstance(MainGameMusicEvent);
+        overMusic = FMODUnity.RuntimeManager.CreateInstance(GameOverMusicEvent);
+        menuMusic.start();
     }
 
     public void RestartGame()
     {
-
+        overMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        levelMusic.start();
         _gameOver = false;
         StartCoroutine(nameof(ReloadSceneAdditive));
         HealthUI.Reset();
@@ -43,6 +56,8 @@ public class GManager : MonoBehaviour
             }
             if(MenuGroup.alpha > 0)
             {
+                menuMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                levelMusic.start();
                 MenuGroup.alpha -= Time.deltaTime * 8;
             }
             if (PlayerStateMachine.Instance.Health.IsDead)
@@ -92,6 +107,8 @@ public class GManager : MonoBehaviour
     {
         if(GameOverScreen.alpha < 1)
         {
+            levelMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            overMusic.start();
             GameOverScreen.alpha = 1;
         }
     }

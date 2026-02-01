@@ -5820,6 +5820,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1553663167}
   - component: {fileID: 1553663166}
+  - component: {fileID: 1553663168}
   m_Layer: 0
   m_Name: Game Manage
   m_TagString: Untagged
@@ -5844,6 +5845,28 @@ MonoBehaviour:
   MenuGroup: {fileID: 466825024}
   GameOverScreen: {fileID: 2026332631}
   Tutorial: {fileID: 70372404}
+  HealthUI: {fileID: 0}
+  MainMenuMusicEvent:
+    Guid:
+      Data1: 858811543
+      Data2: 1074846512
+      Data3: 2103881869
+      Data4: -634853272
+    Path: event:/Music/BGM02
+  MainGameMusicEvent:
+    Guid:
+      Data1: -55248920
+      Data2: 1077004964
+      Data3: 1648281513
+      Data4: 754121085
+    Path: event:/Music/BGM01
+  GameOverMusicEvent:
+    Guid:
+      Data1: 1183586204
+      Data2: 1140886010
+      Data3: 1924649859
+      Data4: -1526482324
+    Path: event:/Music/GameOver
 --- !u!4 &1553663167
 Transform:
   m_ObjectHideFlags: 0
@@ -5860,6 +5883,20 @@ Transform:
   - {fileID: 1126990187}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1553663168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553663165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &1561650187
 GameObject:
   m_ObjectHideFlags: 0

@@ -197,10 +197,10 @@ MonoBehaviour:
   Path: FMOD/GGJ_Bangers/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639055437620000000
+  lastModified: 639055451740000000
   FileSizes:
   - Name: Desktop
-    Value: 1238
+    Value: 1288
   Exists: 1
 --- !u!114 &-37574344633162810
 MonoBehaviour:
@@ -256,12 +256,13 @@ MonoBehaviour:
   - {fileID: -3600837712762981551}
   - {fileID: 7803666480460365108}
   - {fileID: 8113683753246386259}
+  - {fileID: 5971009605555082329}
   EditorParameters: []
   MasterBanks:
   - {fileID: 3097422677804131983}
   StringsBanks:
   - {fileID: -2796414993563035895}
-  cacheTime: 639055437620000000
+  cacheTime: 639055451740000000
   cacheVersion: 131635
 --- !u!114 &873325723247290432
 MonoBehaviour:
@@ -302,7 +303,7 @@ MonoBehaviour:
   Path: FMOD/GGJ_Bangers/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639055437620000000
+  lastModified: 639055451740000000
   FileSizes:
   - Name: Desktop
     Value: 1036
@@ -322,11 +323,38 @@ MonoBehaviour:
   Path: FMOD/GGJ_Bangers/Build/Desktop/BGM.bank
   Name: BGM
   StudioPath: bank:/BGM
-  lastModified: 639055437620000000
+  lastModified: 639055451740000000
   FileSizes:
   - Name: Desktop
-    Value: 2478464
+    Value: 2587168
   Exists: 1
+--- !u!114 &5971009605555082329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/GameOver
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Music/GameOver
+  Guid:
+    Data1: 1183586204
+    Data2: 1140886010
+    Data3: 1924649859
+    Data4: -1526482324
+  Banks:
+  - {fileID: 5078689041788800443}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 11428
 --- !u!114 &7803666480460365108
 MonoBehaviour:
   m_ObjectHideFlags: 0
